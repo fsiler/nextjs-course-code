@@ -1,3 +1,6 @@
+import fs from "fs/promises"; // can't do this client-side
+import path from "path"; // can't do this client-side
+
 function HomePage(props) {
   const { products } = props;
 
@@ -12,7 +15,11 @@ function HomePage(props) {
 
 // never visible client side
 export async function getStaticProps() {
-  return { props: { products: [{ id: "p1", title: "Product 1" }] } };
+  const filePath = path.join(process.cwd(), "data", "dummy-backend.json");
+  const jsonData = await fs.readFile(filePath);
+  const data = JSON.parse(jsonData);
+
+  return { props: data };
 }
 
 export default HomePage;
