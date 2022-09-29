@@ -1,5 +1,7 @@
-import fs from "fs/promises"; // can't do this client-side
+import { promises as fs } from "fs"; // can't do this client-side
 import path from "path"; // can't do this client-side
+
+import Link from "next/link";
 
 function HomePage(props) {
   const { products } = props;
@@ -7,7 +9,9 @@ function HomePage(props) {
   return (
     <ul>
       {products.map((product) => (
-        <li key={product.id}>{product.title}</li>
+        <li key={product.id}>
+          <Link href={`/${product.id}`}>{product.title}</Link>
+        </li>
       ))}
     </ul>
   );
