@@ -1,10 +1,15 @@
-import {promises as fs} from "fs"; // can't do this client-side
+import { promises as fs } from "fs"; // can't do this client-side
 import path from "path"; // can't do this client-side
 
 import { Fragment } from "react";
 
 function ProductDetailPage(props) {
   const { loadedProduct } = props;
+
+  if (!loadedProduct) {
+    return <p>Loading...</p>;
+  }
+
   return (
     <Fragment>
       <h1>{loadedProduct.title}</h1>
