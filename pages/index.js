@@ -18,12 +18,18 @@ function HomePage(props) {
 }
 
 // never visible client side
-export async function getStaticProps() {
+export async function getStaticProps(context) {
+  console.log(context);
   const filePath = path.join(process.cwd(), "data", "dummy-backend.json");
   const jsonData = await fs.readFile(filePath);
   const data = JSON.parse(jsonData);
 
-  return { props: data };
+  return {
+    props: data,
+    revalidate: 10,
+//   notFound: True,
+//   redirect: { destination: '/blarg', },
+  };
 }
 
 export default HomePage;
