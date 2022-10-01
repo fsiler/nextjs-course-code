@@ -3,6 +3,13 @@ import path from "path"; // can't do this client-side
 
 import { Fragment } from "react";
 
+async function getData() {
+  const filePath = path.join(process.cwd(), "data", "dummy-backend.json");
+  const jsonData = await fs.readFile(filePath);
+
+  return JSON.parse(jsonData);
+}
+
 function ProductDetailPage(props) {
   const { loadedProduct } = props;
 
@@ -25,7 +32,7 @@ export async function getStaticPaths() {
   const paths = ids.map(id => ({ params: { pid: id}}));
   return {
     paths: paths,
-    fallback: false,
+    fallback: true,
   };
 }
 
@@ -36,14 +43,12 @@ export async function getStaticProps(context) {
   const data = await getData();
   const product = data.products.find((product) => product.id === productId);
 
+  if(!product) {
+    return { notFound: true };
+  }
+
   return { props: { loadedProduct: product } };
 }
 
-async function getData() {
-  const filePath = path.join(process.cwd(), "data", "dummy-backend.json");
-  const jsonData = await fs.readFile(filePath);
-
-  return JSON.parse(jsonData);
-}
 
 export default ProductDetailPage;
