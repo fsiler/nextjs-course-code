@@ -28,8 +28,8 @@ function ProductDetailPage(props) {
 export async function getStaticPaths() {
   const data = await getData();
 
-  const ids = data.products.map(product => product.id);
-  const paths = ids.map(id => ({ params: { pid: id}}));
+  const ids = data.products.map((product) => product.id);
+  const paths = ids.map((id) => ({ params: { pid: id } }));
   return {
     paths: paths,
     fallback: true,
@@ -43,12 +43,11 @@ export async function getStaticProps(context) {
   const data = await getData();
   const product = data.products.find((product) => product.id === productId);
 
-  if(!product) {
+  if (!product) {
     return { notFound: true };
   }
 
   return { props: { loadedProduct: product } };
 }
-
 
 export default ProductDetailPage;
